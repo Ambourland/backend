@@ -1,9 +1,18 @@
-const identity = function () {
-
+const identity = function (i) {
+     return i
 };
 
-const first = function () {
-  
+const first = function (arr, index) {
+ if (index === undefined) {
+  return arr[0]
+ }
+ if (index === 0) {
+  return []
+ }
+ if (index >= arr.length) {
+  return arr
+ }
+ return arr.slice(0,index)
 };
   
 const last = function () {
