@@ -7,10 +7,13 @@ import axios from 'axios'
 function App() {
   // const [count, setCount] = useState(0)
 
+
   const [data, setData] = useState()
 
-  useEffect(() => {
+  const [newTodo, setNewTodo] = useState("")
 
+  useEffect(() => {
+ 
     axios({
       method: "get",
       url: "http://localhost:3000/gettodos"
@@ -20,13 +23,49 @@ function App() {
         setData(res.data)
       })
       .catch(err => console.log("err", err))
-
-
   }, [])
 
+  // add new todo
+   const handleAddTodo = () => {
+      if (!newTodo.trim())  return
+      //empty todo
+      const todoItem = {
+        todo: newTodo,
+        create: new Date()
+      }
+      axios({
+        method: "post",
+        url: "http://localhost:3000/create",
+        data: todoItem,   //ths sends it to the newtodo to the back end
+      })
+      .then((res) => {
+        console.log("todo add it", res)
+        setData([...data,res.data])   // add the newtodo to the state
+        setNewTodo("")  // clears the input field
+
+      })
+      .catch((err) => console.log("error adding todo", {err}))
+    }
 
   return (
     <>
+    <div>
+      <h1>To-do-matic</h1>
+      {console.log("newTodo:", newTodo)}
+      {/** input field and button for adding new todo */}
+      <div style={{marginBottom: "20px"}}>
+        <input
+        type="text"
+        placeholder='Enter a new todo'
+        value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
+        style={{marginRight: "10px", padding: "5px"}}
+         />
+         <button onClick={handleAddTodo} style={{padding: "5px"}}>
+          Add Todo
+         </button>
+      </div>
+    </div>
       {console.log("data", data)}
 
    
@@ -47,3 +86,25 @@ function App() {
 }
 
 export default App
+
+
+
+
+// Notes:  Validation:
+
+    // if (!newTodo.trim()) return; ensures no empty or whitespace-only todos are added.
+
+    // Payload Creation:
+    
+    //     todoItem contains the todo string and a timestamp (created).
+    
+    // Backend Request:
+    
+    //     A POST request is sent to /create, passing todoItem as the payload.
+    
+    // State Update:
+    
+    //     On success (then block):
+    //         The backend sends the newly created todo with an _id.
+    //         setData([...data, res.data]) appends the new todo to the existing list.
+    //         Clears the input field with se
