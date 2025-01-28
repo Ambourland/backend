@@ -9,6 +9,17 @@ function App() {
 
   const [data, setData] = useState()
 
+  // test
+  // test
+  // test
+  const [newToDo, setNewToDo] = useState(
+    {
+      todo: "",
+      created: Date.now()
+    }
+  )
+
+
   useEffect(() => {
  
     axios({
