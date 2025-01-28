@@ -10,7 +10,12 @@ function App() {
 
   const [data, setData] = useState()
 
-  const [newTodo, setNewTodo] = useState("")
+  const [newTodo, setNewTodo] = useState(
+    {
+      todo: "",
+      created: Date.now()
+    }
+  )
 
   useEffect(() => {
  
