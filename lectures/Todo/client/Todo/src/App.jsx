@@ -10,13 +10,6 @@ function App() {
 
   const [data, setData] = useState()
 
-  const [newTodo, setNewTodo] = useState(
-    {
-      todo: "",
-      created: Date.now()
-    }
-  )
-
   useEffect(() => {
  
     axios({
@@ -25,69 +18,39 @@ function App() {
     })
       .then(res => {
         console.log("res", res)
+        // console.log("sorted", sorted)
         setData(res.data)
+
       })
       .catch(err => console.log("err", err))
+
+
   }, [])
 
-  // add new todo
-   const handleAddTodo = () => {
-      if (!newTodo.trim())  return
-      //empty todo
-      const todoItem = {
-        todo: newTodo,
-        create: new Date()
-      }
-      axios({
-        method: "post",
-        url: "http://localhost:3000/create",
-        data: todoItem,   //ths sends it to the newtodo to the back end
-      })
-      .then((res) => {
-        console.log("todo add it", res)
-        setData([...data,res.data])   // add the newtodo to the state
-        setNewTodo("")  // clears the input field
-
-      })
-      .catch((err) => console.log("error adding todo", {err}))
-    }
 
   return (
     <>
-    <div>
-      <h1>To-do-matic</h1>
-      {console.log("newTodo:", newTodo)}
-      {/** input field and button for adding new todo */}
-      <div style={{marginBottom: "20px"}}>
-        <input
-        type="text"
-        placeholder='Enter a new todo'
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-        style={{marginRight: "10px", padding: "5px"}}
-         />
-         <button onClick={handleAddTodo} style={{padding: "5px"}}>
-          Add Todo
-         </button>
-      </div>
-    </div>
       {console.log("data", data)}
 
-   
-        {data && data.map((item) => {
-          return (
-            <div style={{ border: '2px solid red' }}>
+
+    {data && data.sort((a,b) =>  b.created - a.created).map((item) => {
+      return (
+
+        <div key={item._id}  style={{ marginBottom: "20px" }}>
+
+          <div style={{ border: '2px solid red' }}>
 
             <p> {item.todo}</p>
-            <button>delete</button>
+            <button id={item._id} onClick={(e) => handleDelete(e)}>delete</button>
             <button>edit</button>
-         
-            </div>
-          )
-        })}
 
-    </>
-  )
+          </div>
+        </div>
+      )
+    })}
+
+  </>
+)
 }
 
 export default App
