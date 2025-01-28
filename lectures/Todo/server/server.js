@@ -15,7 +15,7 @@ const Schema = mongoose.Schema
 const ToDoSchema = new Schema(
     {
         todo: String,
-        created: Date
+        created: Number
     }
 )
 const ToDo = mongoose.model('ToDo', ToDoSchema)
