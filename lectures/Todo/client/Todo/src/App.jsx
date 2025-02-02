@@ -59,7 +59,7 @@ function App() {
     })
     .then(res => {
       console.log("re", res)
-      console.log(res.data._id)
+      console.log("RES", res.data._id)
       setData((prev) => prev.filter((item) => item._id != res.data._id))
     })
     .catch(err => console.log(err))
