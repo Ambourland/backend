@@ -33,10 +33,10 @@ app.get("/gettodos", (req, res) => {
     console.log("GetToDos HIT")
     ToDo.find()
         .then(found => {
-            console.log("found", found)
+            console.log("Found", found)
             res.json(found)
         })
-        .catch(err => console.log(`this is a ${err}`))
+        .catch(err => console.log(err))
 })
 
 app.post("/create", (req, res) => {
@@ -44,7 +44,7 @@ app.post("/create", (req, res) => {
     ToDo.create(req.body)
         .then(created => {
             console.log("created", created)
-            res.json
+            res.json(created)
         })
         .catch(err => console.log(err))
 })
