@@ -27,14 +27,7 @@ function App() {
       url: 'http://localhost:3000/login',
       data: login
     })
-      .then(res => {
-        console.log("res", res.data)
-          if(res.data.msg === "good login"){
-            alert(`Welcome back : ${res.data.found.username}`)
-          }else {
-            alert("BAD LOGIN")
-          }
-      })
+      .then(res => console.log("res", res.data))
       .catch(error => console.log(error))
   }
   const handleRegister = (e) => {

@@ -17,12 +17,13 @@ const AuthSchema = new Schema(
         username:
         {
             type: String,
-            required: true
+            required: true,
+            unique: true
         }
         ,
         password: {
             type: String,
-            required: true
+            required: true,
 
         },
         created: Number
@@ -36,6 +37,64 @@ const Auth = mongoose.model('Auth', AuthSchema)
 require('dotenv').config()
 
 app.use(express.json())
+
+app.post("/register", (req, res) => {
+
+    console.log("Reg hit", req.body)
+    Auth.create(req.body)
+        .then(created => {
+            console.log("created", created)
+            res.status(201).json(created)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ error: "Internal Server Error" })
+        })
+}
+)
+app.post("/register", (req, res) => {
+    console.log("Reg hit", req.body) 
+    Auth.findOne({username : req.body.username})
+        .then(found => {
+            console.log("found", found)
+            if(!found){
+                console.log("Unique Username")
+                const hash = bcrypt.hashSync(req.body.password, 10)
+                console.log("HASH", hash)
+                const newUser = new Auth(
+                    {
+                        username: req.body.username,
+                        password: hash
+                    }
+                )
+                Auth.create(newUser)
+                    .then(created => {
+                        console.log("created", created)
+                    })
+            } else {
+                console.log("Username TAKEN")
+            }
+        })
+        .catch(err => console.log(err))
+   
+}
+)
+
+app.post("/login", (req, res) => {
+    console.log("login", req.body)
+
+    Auth.findOne({username: req.body.username})
+      .then(found => {
+        console.log("found", found)
+        if(bcrypt.compareSync(req.body.password, found.password)){
+            console.log("Good Login")
+            res.json({msg: "good login", })
+        }
+      })
+
+
+}
+)
 
 
 const PORT = 3000
