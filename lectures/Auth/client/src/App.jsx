@@ -10,6 +10,7 @@ function App() {
     username: '',
     password: ''
   })
+  
   const handleLogin = (e) => {
     console.log("login", e.target.value)
     setLogin(prev => {
@@ -29,9 +30,13 @@ function App() {
     })
       .then(res => {
         console.log("res", res.data)
+         
           if(res.data.msg === "good login"){
+
             alert(`Welcome back : ${res.data.found.username}`)
+            
           }else {
+            
             alert("BAD LOGIN")
           }
       })
