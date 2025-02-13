@@ -47,7 +47,6 @@ app.post("/register", (req, res) => {
             console.log("found", found)
             if (!found) {
                 console.log("Good username... proceed")
-
                 const hash = bcrypt.hashSync(req.body.password, 10)
                 console.log("hash", hash)
                 const newUser = new Auth(
