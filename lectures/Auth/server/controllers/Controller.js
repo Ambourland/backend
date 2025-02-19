@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const model = require("../models/Model")
+const Auth = require("../models/Model")
 const bcrypt = require('bcrypt')
 
 module.exports = {

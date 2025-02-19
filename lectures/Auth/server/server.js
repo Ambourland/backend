@@ -9,7 +9,10 @@ require('dotenv').config()
 app.use(cors(
     { origin: 'http://localhost:5173' }
 ))
+app.use(express.json())
 
+const router = require("../server/routes/Route")
+router(app)
 // const Schema = mongoose.Schema
 
 // const AuthSchema = new Schema(
@@ -32,7 +35,6 @@ app.use(cors(
 // )
 // const Auth = mongoose.model('Auth', AuthSchema)
 
-app.use(express.json())
 
  //app.post("/register", )//(req, res) => {
 
